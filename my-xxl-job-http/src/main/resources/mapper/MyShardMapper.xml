@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.moduls.myxxljobhttp.dao.MyShardDao">
+
+    <resultMap id="MyShard" type="com.moduls.myxxljobhttp.model.MyShard" >
+        <result column="id" property="id" />
+        <result column="ip" property="ip"/>
+        <result column="app_name" property="app_name" />
+        <result column="shard_name" property="shard_name" />
+        <result column="orde" property="orde" />
+        <result column="port" property="port" />
+        <result column="extend" property="extend" />
+    </resultMap>
+
+    <sql id="Base_Column_List">
+		t.id,
+		t.ip,
+		t.app_name,
+		t.shard_name,
+		t.orde,
+		t.port,
+		t.extend
+	</sql>
+
+    <select id="getShardMessage" parameterType="com.moduls.myxxljobhttp.model.MyShard" resultMap="MyShard">
+        select <include refid="Base_Column_List" />
+        from xxl_job_shard as t
+        <where>
+            <if test="app_name!=null and app_name!=''">
+                and t.app_name=#{app_name}
+            </if>
+            <if test="ip!=null and ip !='' ">
+                and t.ip=#{ip}
+            </if>
+            <if test="port!=null and port !=''">
+                and t.port=#{port}
+            </if>
+        </where>
+    </select>
+
+</mapper>

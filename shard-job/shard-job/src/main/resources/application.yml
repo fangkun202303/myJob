@@ -1,0 +1,16 @@
+server:
+  port: 9000
+
+spring:
+  datasource:
+    username: root
+    password: root
+    url: jdbc:mysql://10.17.18.37:3306/xxl_job?Unicode=true&characterEncoding=UTF-8&useSSL=false
+    type: com.zaxxer.hikari.HikariDataSource
+    driver-class-name: com.mysql.jdbc.Driver
+
+mybatis:
+  mapper-locations: classpath:mybatis/mapper/*Mapper.xml
+logging:
+  level:
+    com.winning.shardjob.dao.MyShardDao: debug

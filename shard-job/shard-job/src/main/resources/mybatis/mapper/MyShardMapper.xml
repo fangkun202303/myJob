@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.winning.shardjob.dao.MyShardDao">
+
+    <resultMap id="MyShard" type="com.winning.shardjob.model.MyShard" >
+        <result column="id" property="id" />
+        <result column="ip" property="ip"/>
+        <result column="app_name" property="app_name" />
+        <result column="shard_name" property="shard_name" />
+        <result column="orde" property="orde" />
+        <result column="port" property="port" />
+        <result column="extend" property="extend" />
+    </resultMap>
+
+    <resultMap id="XxlJobGroup" type="com.winning.shardjob.model.XxlJobGroup" >
+        <result column="id" property="id" />
+        <result column="app_name" property="appName" />
+        <result column="title" property="title" />
+        <result column="order" property="order" />
+        <result column="address_type" property="addressType" />
+        <result column="address_list" property="addressList" />
+    </resultMap>
+
+    <sql id="Base_Column_List">
+		t.id,
+		t.ip,
+		t.app_name,
+		t.shard_name,
+		t.orde,
+		t.port,
+		t.extend
+	</sql>
+
+    <insert id="save" parameterType="com.winning.shardjob.model.MyShard" >
+        insert into xxl_job_shard (`ip`,`app_name`,`shard_name`,`orde`,`port`, `extend`)
+        values (#{ip}, #{app_name}, #{shard_name}, #{orde}, #{port}, #{extend})
+    </insert>
+
+    <update id="update" parameterType="com.winning.shardjob.model.MyShard" >
+        UPDATE xxl_job_shard
+		SET `ip` = #{ip},
+			`app_name` = #{app_name},
+			`shard_name` = #{shard_name},
+			`orde` = #{orde},
+			`port` = #{port},
+			`extend` = #{extend}
+		WHERE id = #{id}
+    </update>
+
+    <delete id="delete" parameterType="java.lang.Integer" >
+        DELETE FROM xxl_job_shard
+		WHERE id = #{id}
+    </delete>
+
+    <select id="myShardList" parameterType="java.lang.String" resultMap="MyShard">
+        select <include refid="Base_Column_List" />
+        from xxl_job_shard as t
+        <where>
+            <if test="app_name!=null and app_name!=''">
+                and t.app_name=#{app_name}
+            </if>
+        </where>
+    </select>
+
+    <select id="xxlJobGroupList" resultMap="XxlJobGroup">
+        select
+        t.id,
+		t.app_name,
+		t.title,
+		t.`order`,
+		t.address_type,
+		t.address_list
+		from xxl_job_group as t
+    </select>
+
+    <select id="getShardList" resultMap="MyShard" >
+        select  <include refid="Base_Column_List" />
+        from  xxl_job_shard as t
+    </select>
+
+</mapper>
